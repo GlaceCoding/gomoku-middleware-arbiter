@@ -51,6 +51,7 @@ export default abstract class ajumper {
   abstract ping(): Promise<boolean>;
   abstract start(sessionid: string): Promise<boolean>;
   abstract play(): Promise<boolean>;
+  abstract stop(): Promise<boolean>;
 
   /**
    * Refresh AiState and if AiState.BUSY, check if sessionid is matching
@@ -122,6 +123,10 @@ export default abstract class ajumper {
       case 'draw':
         this.game.gstatus = 'draw'
         break;
+    }
+
+    if (!this.game.stop()) {
+      console.warn(this.game.name, ': game stopped with error.')
     }
 
     return false

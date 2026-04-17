@@ -78,4 +78,13 @@ export default class Game {
     setTimeout(() => this.play(), 10)
     return true
   }
+
+  async stop(): Promise<boolean> {
+    if (!this.blackAI || !this.whiteAI)
+      return false
+    let bool = true
+    bool = this.blackAI.stop() && bool
+    bool = this.whiteAI.stop() && bool
+    return bool
+  }
 }

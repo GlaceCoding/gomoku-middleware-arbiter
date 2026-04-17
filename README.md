@@ -62,7 +62,7 @@ Each **AI (ia)** exposes an interface that allows:
 
 ## API (Middleware Arbiter to Gomoku binary)
 
-### 1) `m2ia PING` — readiness + session sync
+### 1) `m2ia PING` — check gomoku state
 
 **Purpose:** check that the AI server is reachable, ready or busy. If busy, check is consistent with the current session.
 
@@ -98,9 +98,9 @@ Each **AI (ia)** exposes an interface that allows:
 
 ---
 
-### 3) `m2ia PLAY` — request the next move
+### 3) `m2ia PLAY` — send the last move and request the next move
 
-**Purpose:** provide the full context and request the AI’s next move.
+**Purpose:** provide the last context and request the AI’s next move.
 
 - **Request data:**
   - `session_id`
@@ -151,6 +151,15 @@ Each **AI (ia)** exposes an interface that allows:
 
 ---
 
+### 1) `m2ia STOP` — Unlock gomoku state
+
+**Purpose:** tell the AI that the match ended (you should reset sessionid, and turn false inGame boolean).
+
+- **Response:**
+  - `{"done": "OK"}`
+
+---
+
 ## Full example
 
 ```log
@@ -186,4 +195,10 @@ GET http://blackAI/arbiter/play
               turn: 3, gstatus: 'playing' }
 
 # ...
+
+GET http://blackAI/arbiter/stop
+  response: { done: 'OK' }
+
+GET http://whiteAI/arbiter/stop
+  response: { done: 'OK' }
 ```

@@ -69,5 +69,14 @@ export default class defaultHTTPJumper extends ajumper {
       return this.handlePlay(data.move, data.board, data.gstatus)
     }
   }
+
+  async stop(): Promise<boolean>  {
+    const resp = await fetch(`http://${this.host}/arbiter/stop`)
+    if (!await this.isStatus200(resp)) return false
+
+    //const data = await resp.json()
+
+    return true
+  }
 }
 
